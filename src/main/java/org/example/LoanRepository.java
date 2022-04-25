@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoanRepository implements DataRepository {
 
 
@@ -9,13 +12,13 @@ public class LoanRepository implements DataRepository {
     }
 
     @Override
-    public void addData() {
+    public void addData(Object O) {
 
     }
 
     @Override
-    public void getData() {
-
+    public List getData() {
+        return new ArrayList<>();
     }
 
     @Override

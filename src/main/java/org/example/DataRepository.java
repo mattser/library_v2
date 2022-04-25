@@ -1,12 +1,14 @@
 package org.example;
 
+import java.util.List;
+
 public interface DataRepository {
 
     void loadData();
 
-    void addData();
+    void addData(Object O);
 
-    void getData();
+    List getData();
 
     void writeData();
 
