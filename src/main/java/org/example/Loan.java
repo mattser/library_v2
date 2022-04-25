@@ -25,7 +25,7 @@ public class Loan {
         this.book = book;
         this.user = user;
         this.outDate = new Timestamp(System.currentTimeMillis());
-        this.dueDate = new Timestamp(System.currentTimeMillis() + 60*60*24*7);
+        this.dueDate = new Timestamp(System.currentTimeMillis() + 60*60*24*7*1000);
         this.returned = false;
     }
 

@@ -13,10 +13,17 @@ public class UserRepository implements DataRepository {
     private ObjectMapper mapper = new ObjectMapper();
 
     public UserRepository() {
+        loadData();
     }
 
     public UserRepository(List<User> userList) {
         this.userList.addAll(userList);
+    }
+
+    public void printUsers() {
+        for (User user: userList) {
+            System.out.println(user);
+        }
     }
 
     @Override
