@@ -1,7 +1,9 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.*;
 
@@ -55,6 +57,11 @@ public class BookRepository implements DataRepository {
 
     @Override
     public void writeData() {
-
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(new File("src/main/resources/books.json"), bookList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
