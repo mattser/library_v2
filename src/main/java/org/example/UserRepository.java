@@ -11,6 +11,7 @@ public class UserRepository implements DataRepository {
 
     private List<User> userList = new ArrayList<>();
     private ObjectMapper mapper = new ObjectMapper();
+    private User activeUser;
 
     public UserRepository() {
         loadData();
@@ -25,6 +26,16 @@ public class UserRepository implements DataRepository {
             System.out.println(user);
         }
     }
+
+    public User getActiveUser() {
+        return this.activeUser;
+    }
+
+    public void setActiveUser(String name) {
+        this.activeUser = userList.stream().filter(o -> o.getUserName().equals(name)).findFirst().get();
+    }
+
+
 
     @Override
     public void loadData() {
@@ -56,5 +67,9 @@ public class UserRepository implements DataRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean checkForUser(String name) {
+        return userList.stream().anyMatch(o -> o.getUserName().equals(name));
     }
 }

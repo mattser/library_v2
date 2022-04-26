@@ -26,6 +26,21 @@ public class BookRepository implements DataRepository {
         }
     }
 
+    public void printBooks(List<Integer> takenBooks) {
+
+        for (Book book: bookList) {
+            if (!takenBooks.contains(book.getBookID())) System.out.println(book);
+        }
+    }
+
+    public boolean checkForBookByID(int ID) {
+        return bookList.stream().anyMatch(o->o.getBookID()==ID);
+    }
+
+    public Book getBookById(int ID) {
+        return bookList.stream().filter(o -> o.getBookID() == ID).findFirst().get();
+    }
+
     @Override
     public void loadData() {
         try {
