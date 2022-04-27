@@ -106,13 +106,13 @@ public class Library {
 
 
             } else if (userInput == 2) {
-//                See All loans
+                loanRepository.printLoans(false);
             } else if (userInput == 3) {
-//                Print Active Loans
+                loanRepository.printLoans(true);
             } else if (userInput == 4) {
-//                Get Book Popularity Report
+                loanRepository.printBookPopularity();
             } else if (userInput == 5 && userRepository.getActiveUser().isAdmin()) {
-//                Save Loans to CSV
+                loanRepository.writeCSVData();
             } else {
                 System.out.println("Invalid Input");
             }

@@ -2,10 +2,13 @@ package org.example;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.opencsv.CSVWriter;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LoanRepository implements DataRepository {
@@ -21,15 +24,24 @@ public class LoanRepository implements DataRepository {
         this.loanList.addAll(loanList);
     }
 
-    public void printLoans() {
+    public void printLoans(boolean printActive) {
         for(Loan loan: loanList) {
-            System.out.println(loan);
+            if (!printActive || !loan.getReturned()) {
+                System.out.println(loan);
+            }
         }
     }
 
     public List<Integer> getActiveLoanBookIDs() {
         return loanList.stream().filter(o->!o.getReturned())
                 .map(o -> o.getBook().getBookID()).collect(Collectors.toList());
+    }
+
+    public void printBookPopularity() {
+        System.out.println("Title=Number Of Rentals");
+        System.out.println(
+                loanList.stream().collect(Collectors.groupingBy(o->o.getBook().getTitle(),Collectors.counting()))
+        );
     }
 
     public void activeLoans(User user) {
@@ -64,6 +76,27 @@ public class LoanRepository implements DataRepository {
     @Override
     public List getData() {
         return loanList;
+    }
+
+    public void writeCSVData() {
+        try {
+            CSVWriter writer = new CSVWriter(new FileWriter(new File("src/main/resources/report.csv")));
+            writer.writeNext(new String[] {"BookID","Title", "Borrower","Date Out","Due Date","Returned"});
+
+            for (Loan loan: loanList) {
+                writer.writeNext(new String[] {"" +loan.getBook().getBookID(),
+                        loan.getBook().getTitle(),
+                        loan.getUser().getUserName(),
+                        "" + loan.getOutDate(),
+                        "" + loan.getDueDate(),
+                        "" + loan.getReturned()
+                });
+            }
+            writer.close();
+            System.out.println("Report Saved!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
